@@ -1,0 +1,12 @@
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  width: 78rem;
+}
+
+tbody {
+  text-align: left;
+}

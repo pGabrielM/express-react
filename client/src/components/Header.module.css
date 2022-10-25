@@ -1,0 +1,14 @@
+header {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+section {
+  display: flex;
+  justify-content: center;
+}
+
+section button {
+  margin: 1rem 1rem ;
+}

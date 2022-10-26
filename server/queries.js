@@ -8,8 +8,24 @@ const pool = new Pool({
   port: 5432,
 })
 
-const getUsers = (_request, response) => {
-    pool.query('SELECT * FROM cad_colaboradores where colaborador like $1', ['GABRIEL%'], (error, results) => {
+const getUsersA = (_request, response) => {
+    pool.query('SELECT * FROM cad_colaboradores where colaborador like $1 LIMIT 50', ['A%'], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+  }
+const getUsersB = (_request, response) => {
+    pool.query('SELECT * FROM cad_colaboradores where colaborador like $1 LIMIT 50', ['B%'], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+  }
+const getUsersC = (_request, response) => {
+    pool.query('SELECT * FROM cad_colaboradores where colaborador like $1 LIMIT 50', ['C%'], (error, results) => {
       if (error) {
         throw error
       }
@@ -18,5 +34,7 @@ const getUsers = (_request, response) => {
   }
 
   module.exports = {
-    getUsers,
+    getUsersA,
+    getUsersB,
+    getUsersC,
   }

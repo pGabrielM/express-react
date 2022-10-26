@@ -16,7 +16,9 @@ app.get('/', (req, res) => {
   res.json('Hello World!')
 })
 
-app.get('/users', db.getUsers)
+app.get('/usersA', db.getUsersA)
+app.get('/usersB', db.getUsersB)
+app.get('/usersC', db.getUsersC)
 
 
 app.listen(port, () => {

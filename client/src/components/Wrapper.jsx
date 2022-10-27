@@ -40,7 +40,6 @@ export function Wrapper() {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Id</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
@@ -50,7 +49,6 @@ export function Wrapper() {
             <tbody hover="true">
             {data.map((user, i) => (
               <tr key={i}>
-                <td>{data[i].id}</td>
                 <td>{data[i].first_name}</td>
                 <td>{data[i].last_name}</td>
                 <td>{data[i].email}</td>

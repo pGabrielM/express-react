@@ -3,7 +3,7 @@ import { Wrapper } from './components/Wrapper'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+export function App() {
   return (
     <>
       <Header />
@@ -11,5 +11,3 @@ function App() {
     </>
   )
 }
-
-export default App

@@ -5,6 +5,7 @@ export function Header() {
     <>
       <header>
         <h1>Lista de usuários</h1>
+        <p>Selecione a letra inicial</p>
       </header>
     </>
   );

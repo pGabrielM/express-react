@@ -1,15 +1,15 @@
 const Pool = require('pg').Pool
 
 const pool = new Pool({
-  user: 'geus',
-  host: 'geus-sim-db.hpp.br',
-  database: 'geus_consulta',
-  password: 'geus@OqK8i063IUmjFpam',
+  user: 'admin',
+  host: 'localhost',
+  database: 'default',
+  password: 'secret',
   port: 5432,
 })
 
 const getUsersA = (_request, response) => {
-    pool.query('SELECT * FROM cad_colaboradores where colaborador like $1 LIMIT 50', ['A%'], (error, results) => {
+    pool.query('SELECT * FROM person where first_name like $1 LIMIT 10', ['A%'], (error, results) => {
       if (error) {
         throw error
       }
@@ -17,7 +17,7 @@ const getUsersA = (_request, response) => {
     })
   }
 const getUsersB = (_request, response) => {
-    pool.query('SELECT * FROM cad_colaboradores where colaborador like $1 LIMIT 50', ['B%'], (error, results) => {
+    pool.query('SELECT * FROM person where first_name like $1 LIMIT 10', ['B%'], (error, results) => {
       if (error) {
         throw error
       }
@@ -25,7 +25,7 @@ const getUsersB = (_request, response) => {
     })
   }
 const getUsersC = (_request, response) => {
-    pool.query('SELECT * FROM cad_colaboradores where colaborador like $1 LIMIT 50', ['C%'], (error, results) => {
+    pool.query('SELECT * FROM person where first_name like $1 LIMIT 10', ['C%'], (error, results) => {
       if (error) {
         throw error
       }

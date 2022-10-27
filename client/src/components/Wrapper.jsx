@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from 'axios'
 
 import Button from 'react-bootstrap/Button';
@@ -9,28 +9,14 @@ import styles from './Wrapper.module.css'
 
 export function Wrapper() {
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [err, setErr] = useState('');
 
   const handleClick = async (link) => {
-    setIsLoading(true);
-    try {
-      const {data} = await axios.get("http://localhost:3000" + link, {
-        headers: {
-          Accept: 'application/json',
-        },
-      });
-      
-      setData(data)
-    } catch (err) {
-      setErr(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+    const {data} = await axios.get("http://localhost:3000" + link);
+    setData(data)
   }
 
   return (
-    <>
+    <div>
       <section>
         <Button variant="dark" onClick={() => handleClick('/usersA')}>Letra A</Button>
         <Button variant="dark" onClick={() => handleClick('/usersB')}>Letra B</Button>
@@ -58,6 +44,6 @@ export function Wrapper() {
             </tbody>
           </Table>
         </Container>
-    </>
+    </div>
   );
 }

@@ -36,7 +36,6 @@ export function Wrapper() {
         <Button variant="dark" onClick={() => handleClick('/usersB')}>Letra B</Button>
         <Button variant="dark" onClick={() => handleClick('/usersC')}>Letra C</Button>
       </section>
-      <div className={styles.main}>
         <Container>
           <Table striped bordered hover>
             <thead>
@@ -48,7 +47,7 @@ export function Wrapper() {
                 <th>Company</th>
               </tr>
             </thead>
-            <tbody hover>
+            <tbody hover="true">
             {data.map((user, i) => (
               <tr key={i}>
                 <td>{data[i].id}</td>
@@ -61,7 +60,6 @@ export function Wrapper() {
             </tbody>
           </Table>
         </Container>
-      </div>
     </>
   );
 }

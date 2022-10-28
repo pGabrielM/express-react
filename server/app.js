@@ -4,8 +4,6 @@ const http = require("http");
 const { Server } = require("socket.io")
 const cors = require("cors")
 
-const db = require("./queries")
-
 app.use(cors())
 
 const server = http.createServer(app)
@@ -16,16 +14,55 @@ const io = new Server(server, {
   }
 });
 
-app.get("/usersA", db.getUsersA)
-app.get("/usersB", db.getUsersB)
-app.get("/usersC", db.getUsersC)
+const { Pool } = require('pg')
 
-io.on("connection", (socket) => {
-  console.log(`User is connected: ${socket.id}`);
+const pool = new Pool({
+  user: 'admin',
+  host: 'localhost',
+  database: 'default',
+  password: 'secret',
+  port: 5432,
+})
 
-  socket.on("send_message", (data) => {
-    socket.broadcast.emit("receive_message", data)
+const getUsersA = (_request, response) => {
+  pool.query('SELECT * FROM person where first_name like $1 LIMIT 10', ['A%'], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
   })
+}
+const getUsersB = (_request, response) => {
+  pool.query('SELECT * FROM person where first_name like $1 LIMIT 10', ['B%'], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+const getUsersC = (_request, response) => {
+  pool.query('SELECT * FROM person where first_name like $1 LIMIT 10', ['C%'], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+app.get("/usersA", getUsersA)
+app.get("/usersB", getUsersB)
+app.get("/usersC", getUsersC)
+
+pool.connect((err, client, done) => {
+  if(err){
+    console.log("Deu erro", err)
+  } else {
+    console.log("Database connected");
+    pool.on('notification', (msg) => {
+      console.log(msg.payload)
+    });
+    const query = pool.query('LISTEN notify_update')
+  }
 })
 
 server.listen(3000, () => {

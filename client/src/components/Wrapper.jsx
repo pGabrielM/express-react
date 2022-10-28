@@ -7,7 +7,21 @@ import Table from 'react-bootstrap/Table';
 
 import styles from './Wrapper.module.css'
 
+import io from "socket.io-client";
+import { useEffect } from "react";
+const socket = io.connect("http://localhost:3000")
+
 export function Wrapper() {
+  const sendMessage = () => {
+    socket.emit("send_message", {message: "Hello"})
+  };
+
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      alert(data.message)
+    });
+  })
+  
   const [data, setData] = useState([]);
 
   const handleClick = async (link) => {
@@ -18,6 +32,7 @@ export function Wrapper() {
   return (
     <div>
       <section>
+        <Button variant="dark" onClick={sendMessage}>Test Websocket</Button>
         <Button variant="dark" onClick={() => handleClick('/usersA')}>Letra A</Button>
         <Button variant="dark" onClick={() => handleClick('/usersB')}>Letra B</Button>
         <Button variant="dark" onClick={() => handleClick('/usersC')}>Letra C</Button>

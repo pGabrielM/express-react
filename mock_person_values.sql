@@ -8,8 +8,7 @@ INSERT INTO public.person (first_name,last_name,email,company) VALUES
 	 ('Breno','Kersey','bkerseym@bravesites.com','Gigaclub'),
 	 ('Bernardo','Soans','bsoansl@washingtonpost.com','Youopia'),
 	 ('Barbara','Fowlds','bfowldsw@google.pl','Quaxo'),
-	 ('Bianca','Tappington','btappington0@hc360.com','Brainsphere');
-INSERT INTO public.person (first_name,last_name,email,company) VALUES
+	 ('Bianca','Tappington','btappington0@hc360.com','Brainsphere'),
 	 ('Bryan','Etter','better1p@hugedomains.com','Centimia'),
 	 ('Carlos','Causey','ccauseyz@ustream.tv','Blogspan'),
 	 ('Carina','Hurrion','churrion12@studiopress.com','Twitterworks'),

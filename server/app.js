@@ -72,24 +72,20 @@ pool.connect((err, pool) => {
         const isUpdateChannel = userChannel == 'update_notification'
         const isInsertChannel = userChannel == 'insert_notification'
 
-        if (checkFirstName == 'A' && isUpdateChannel) {
-          socket.emit("updateListUsers", '/usersA', 'A')
-        }
-        if (checkFirstName == 'B' && isUpdateChannel) {
-          socket.emit("updateListUsers", '/usersB', 'B')
-        }
-        if (checkFirstName == 'C' && isUpdateChannel) {
-          socket.emit("updateListUsers", '/usersC', 'C')
+        if (isUpdateChannel) {
+          if (checkFirstName == 'A') socket.emit("updateListUsers", '/usersA', 'A')
+          
+          if (checkFirstName == 'B') socket.emit("updateListUsers", '/usersB', 'B')
+          
+          if (checkFirstName == 'C') socket.emit("updateListUsers", '/usersC', 'C')
         }
 
-        if(checkFirstName == 'A' && isInsertChannel) {
-          socket.emit("insertListUser", '/usersA', 'A')
-        }
-        if(checkFirstName == 'B' && isInsertChannel) {
-          socket.emit("insertListUser", '/usersB', 'B')
-        }
-        if(checkFirstName == 'C' && isInsertChannel) {
-          socket.emit("insertListUser", '/usersC', 'C')
+        if (isInsertChannel) {
+          if(checkFirstName == 'A') socket.emit("insertListUser", '/usersA', 'A');
+         
+          if(checkFirstName == 'B') socket.emit("insertListUser", '/usersB', 'B');
+         
+          if(checkFirstName == 'C') socket.emit("insertListUser", '/usersC', 'C');
         }
 
         console.log(userPayloadObj)

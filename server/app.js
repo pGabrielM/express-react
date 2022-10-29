@@ -25,7 +25,7 @@ const pool = new Pool({
 })
 
 const getUsersA = (_request, response) => {
-  pool.query('SELECT * FROM person where first_name like $1 LIMIT 10', ['A%'], (error, results) => {
+  pool.query('SELECT * FROM person where first_name like $1', ['A%'], (error, results) => {
     if (error) {
       throw error
     }
@@ -33,7 +33,7 @@ const getUsersA = (_request, response) => {
   })
 }
 const getUsersB = (_request, response) => {
-  pool.query('SELECT * FROM person where first_name like $1 LIMIT 10', ['B%'], (error, results) => {
+  pool.query('SELECT * FROM person where first_name like $1', ['B%'], (error, results) => {
     if (error) {
       throw error
     }
@@ -41,7 +41,7 @@ const getUsersB = (_request, response) => {
   })
 }
 const getUsersC = (_request, response) => {
-  pool.query('SELECT * FROM person where first_name like $1 LIMIT 10', ['C%'], (error, results) => {
+  pool.query('SELECT * FROM person where first_name like $1', ['C%'], (error, results) => {
     if (error) {
       throw error
     }
@@ -53,34 +53,52 @@ app.get("/usersA", getUsersA)
 app.get("/usersB", getUsersB)
 app.get("/usersC", getUsersC)
 
-io.on("connection", (socket) => {
+pool.connect((err, pool) => {
+  if(err){
+    console.log("Connection error", err)
+  } else {
+    console.log("Database connected");
+    pool.query('LISTEN update_notification')
+    pool.query('LISTEN insert_notification')
 
-  pool.connect((err, pool) => {
-    if(err){
-      console.log("Connection error", err)
-    } else {
-      console.log("Database connected");
+    io.on("connection", (socket) => {
       pool.on("notification", (msg) => {
-        const message = JSON.parse(msg.payload)
-        const checkFirstName = message.first_name.substr(0, 1)
+        const userPayload = msg.payload
+        const userChannel = msg.channel
 
-        if (checkFirstName == 'A') {
-          socket.emit("updateListUsersA", '/usersA', 'A')
+        const userPayloadObj = JSON.parse(userPayload)
+        const checkFirstName = userPayloadObj.first_name.substr(0, 1)
+
+        const isUpdateChannel = userChannel == 'update_notification'
+        const isInsertChannel = userChannel == 'insert_notification'
+
+        if (checkFirstName == 'A' && isUpdateChannel) {
+          socket.emit("updateListUsers", '/usersA', 'A')
         }
-        if (checkFirstName == 'B') {
-          socket.emit("updateListUsersA", '/usersB', 'B')
+        if (checkFirstName == 'B' && isUpdateChannel) {
+          socket.emit("updateListUsers", '/usersB', 'B')
         }
-        if (checkFirstName == 'C') {
-          socket.emit("updateListUsersA", '/usersC', 'C')
+        if (checkFirstName == 'C' && isUpdateChannel) {
+          socket.emit("updateListUsers", '/usersC', 'C')
         }
-        console.log(`User with id ${socket.id} changed a person with the letter ${checkFirstName}!`)
+
+        if(checkFirstName == 'A' && isInsertChannel) {
+          socket.emit("insertListUser", '/usersA', 'A')
+        }
+        if(checkFirstName == 'B' && isInsertChannel) {
+          socket.emit("insertListUser", '/usersB', 'B')
+        }
+        if(checkFirstName == 'C' && isInsertChannel) {
+          socket.emit("insertListUser", '/usersC', 'C')
+        }
+
+        console.log(userPayloadObj)
+        console.log(userChannel)
         
+        console.log(`User with id ${socket.id} changed a person with the letter ${checkFirstName}!`)
       });
-      pool.query('LISTEN update_notification')
-    }
-  })
-
-  
+    })
+  }
 })
 
 server.listen(3000, () => {

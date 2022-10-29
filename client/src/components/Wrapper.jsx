@@ -25,13 +25,21 @@ export function Wrapper() {
     }
   })
 
-  socket.on("updateListUsersA", (url, user) => {
+  socket.on("updateListUsers", (url, user) => {
     handleClick(url)
     Toast.fire({
       icon: 'info',
-      title: `Usuário com a letra ${user} alterado`
+      title: `Usuário com a incial ${user} alterado!`
     })
   });
+
+  socket.on("insertListUser", (url, user) => {
+    handleClick(url)
+    Toast.fire({
+      icon: 'info',
+      title: `Usuário com a inicial ${user} foi inserido na tabela!`
+    })
+  })
 
   const [data, setData] = useState([]);
 

@@ -1,0 +1,12 @@
+create or replace function public.person_notify_trigger() returns trigger as $$
+declare 
+begin 
+	perform pg_notify( cast('update_notification' as text), row_to_json(new)::text);
+	return new;
+end;
+$$ LANGUAGE plpgsql;
+
+
+
+create trigger person_update_trigger after update on public.person
+for each row execute procedure public.person_notify_trigger();

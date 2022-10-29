@@ -20,7 +20,7 @@ const pool = new Pool({
   user: 'admin',
   host: 'localhost',
   database: 'default',
-  password: 'secret',
+  password: 'admin', //secret
   port: 5432,
 })
 
@@ -53,15 +53,15 @@ app.get("/usersA", getUsersA)
 app.get("/usersB", getUsersB)
 app.get("/usersC", getUsersC)
 
-pool.connect((err, client, done) => {
+pool.connect((err, pool, done) => {
   if(err){
-    console.log("Deu erro", err)
+    console.log("Connection error", err)
   } else {
     console.log("Database connected");
     pool.on('notification', (msg) => {
       console.log(msg.payload)
     });
-    const query = pool.query('LISTEN notify_update')
+    pool.query('LISTEN update_notification')
   }
 })
 

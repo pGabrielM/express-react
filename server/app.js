@@ -53,16 +53,34 @@ app.get("/usersA", getUsersA)
 app.get("/usersB", getUsersB)
 app.get("/usersC", getUsersC)
 
-pool.connect((err, pool, done) => {
-  if(err){
-    console.log("Connection error", err)
-  } else {
-    console.log("Database connected");
-    pool.on('notification', (msg) => {
-      console.log(msg.payload)
-    });
-    pool.query('LISTEN update_notification')
-  }
+io.on("connection", (socket) => {
+
+  pool.connect((err, pool) => {
+    if(err){
+      console.log("Connection error", err)
+    } else {
+      console.log("Database connected");
+      pool.on("notification", (msg) => {
+        const message = JSON.parse(msg.payload)
+        const checkFirstName = message.first_name.substr(0, 1)
+
+        if (checkFirstName == 'A') {
+          socket.emit("updateListUsersA", '/usersA', 'A')
+        }
+        if (checkFirstName == 'B') {
+          socket.emit("updateListUsersA", '/usersB', 'B')
+        }
+        if (checkFirstName == 'C') {
+          socket.emit("updateListUsersA", '/usersC', 'C')
+        }
+        console.log(`User with id ${socket.id} changed a person with the letter ${checkFirstName}!`)
+        
+      });
+      pool.query('LISTEN update_notification')
+    }
+  })
+
+  
 })
 
 server.listen(3000, () => {

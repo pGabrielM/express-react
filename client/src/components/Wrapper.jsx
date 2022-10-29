@@ -47,7 +47,6 @@ export function Wrapper() {
     const {data} = await axios.get("http://localhost:3000" + link);
     setData(data)
   }
-
   return (
     <div>
       <section>

@@ -30,4 +30,4 @@ for each row execute procedure public.person_notify_insert_trigger();
 
 -- INSERT PARA TEST
 
-insert into person (id, first_name, last_name, email, company) values (101, 'Ana', 'Weir', 'uweir0@spiegel.de', 'Wikizz');
+insert into person (first_name, last_name, email, company) values ('Ana', 'Weir', 'uweir0@spiegel.de', 'Wikizz');

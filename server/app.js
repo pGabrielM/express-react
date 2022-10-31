@@ -20,7 +20,7 @@ const pool = new Pool({
   user: 'admin',
   host: 'localhost',
   database: 'default',
-  password: 'admin', //secret
+  password: 'secret', //secret
   port: 5432,
 })
 
